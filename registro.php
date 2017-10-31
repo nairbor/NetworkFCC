@@ -1,17 +1,36 @@
+<?php
+
+  /*
+    En ocasiones el usuario puede volver al login
+    aun si ya existe una sesion iniciada, lo correcto
+    es no mostrar otra ves el login sino redireccionarlo
+    a su pagina principal mientras exista una sesion entonces
+    creamos un archivo que controle el redireccionamiento
+  */
+
+  session_start();
+
+  // isset verifica si existe una variable o eso creo xd
+  if(isset($_SESSION['id'])){
+    header('location: controller/redirec.php');
+  }
+
+?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
 	<meta charset="utf-8">
-	<title>Netword-FCC</title>
+	<title>Registro N-FCC</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta name="description" content="Bootstrap 3 template for corporate business" />
 	<!-- css -->
 	<link href="css/bootstrap.min.css" rel="stylesheet" />
-	<link href="plugins/flexslider/flexslider.css" rel="stylesheet" media="screen" />
 	<link href="css/cubeportfolio.min.css" rel="stylesheet" />
 	<link href="css/style.css" rel="stylesheet" />
 	<link href="css/miestilo.css" rel="stylesheet" />
+
 
 	<!-- Theme skin -->
 	<link id="t-colors" href="skins/default.css" rel="stylesheet" />
@@ -19,23 +38,19 @@
 	<!-- boxed bg -->
 	<link id="bodybg" href="bodybg/bg1.css" rel="stylesheet" type="text/css" />
 
-	<!-- =======================================================
-    Theme Name: Sailor
-    Theme URL: https://bootstrapmade.com/sailor-free-bootstrap-theme/
-    Author: BootstrapMade
-    Author URL: https://bootstrapmade.com
-	======================================================= -->
-
 </head>
 
 <body>
-	<div id="wrapper">
+
+
+
+    <div id="wrapper">
 		<!-- start header -->
 		<header>
 			<div class="top">
 				<div class="container">
 					<div class="row">
-						<div class="col-md-12 hidden-sm hidden-xs ">							
+						<div class="col-md-10 col-md-offset-2 hidden-sm hidden-xs">							
                             <form class="form-inline  derecha">
                               <div class="form-group ">
                                 <label for="user" >Usuario: </label>
@@ -46,10 +61,9 @@
                                 <input type="password" class="form-control" id="pwd">
                               </div>
                               <button type="submit" class="btn btn-info "> Entrar </button>
-                              <button type="submit" class="btn btn-info "> Registrarse </button>
                             </form>									
 						</div>
-						<div class="col-xs-12 hidden-lg hidden-md">							
+						<div class="col-xs-10 col-xs-offset-1 hidden-md hidden-lg">							
                             <form class="form-inline ">
                               <div class="form-group ">
                                 <label for="user" >Usuario: </label>
@@ -60,7 +74,6 @@
                                 <input type="password" class="form-control" id="pwd">
                               </div>
                               <button type="submit" class="btn btn-info "> Entrar </button>
-                              <button type="submit" class="btn btn-info "> Registrarse </button>
                             </form>									
 						</div>
 					</div>
@@ -91,84 +104,50 @@
 			</div>
 		</header>
 		<!-- end header -->
-		<section id="featured" class="bg">
-				<!-- start slider -->
+		<section id="content">
 			<div class="container">
 				<div class="row">
-					<div class="col-lg-12">
-						<!-- Slider -->
-						<div id="main-slider" class="main-slider flexslider">
-							<ul class="slides text-center">
-								<li>
-								    <div class="margen-inferior">
-										<h3>Servicio Social</h3>
-										<p>REaliza tu Servcio en la DGIE</p>
-										<a href="#" class="btn btn-theme">Leer más</a>
+					<div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+						<form role="form" class="register-form">
+							<h2>Por favor registrate <small>Es gratis.</small></h2>
+							<hr class="colorgraph">
+							<div class="row">
+							</div>
+							<label class="sr-only" for="user">Nombre</label>
+							<div class="form-group">
+							    
+								<input type="text" name="name" id="name" class="form-control input-lg" placeholder="Ingresa tu nombre" >
+							</div>
+							<div class="form-group">
+							    <label class="sr-only" for="user">Email</label>
+								<input type="email" name="email" id="email" class="form-control input-lg" placeholder="Ingresa tu correo" >
+							</div>
+							<div class="row">
+								<div class="col-xs-12 col-sm-6 col-md-6">
+									<div class="form-group">
+								        <label class="sr-only" for="clave">Contraseña</label>
+										<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Ingresa tu contraseña" >
 									</div>
-									<img src="img/slides/flexslider/1.jpg" alt="" height="400px" class="img.responsive"/>
-								</li>
-								<li>
-								    <div class="margen-inferior">
-										<h3>Bolsa de trabajo</h3>
-										<p>VW te esta buscando</p>
-										<a href="#" class="btn btn-theme">Leer más</a>
+								</div>
+								<div class="col-xs-12 col-sm-6 col-md-6">
+									<div class="form-group">
+									    <label class="sr-only" for="clave">Verificar contraseña</label>
+										<input type="password" name="password_confirmation" id="password_confirmation" class="form-control input-lg" placeholder="Verifica contraseña" >
 									</div>
-									<img src="img/slides/flexslider/2.jpg" alt="" height="400px" class="img.responsive"/>
-								</li>
-								<li>
-								    <div class="margen-inferior">
-										<h3>Secretaría Academica</h3>
-										<p>Progrma integral de becas.</p>
-										<a href="#" class="btn btn-theme">Leer más</a>
-									</div>
-									<img src="img/slides/flexslider/3.jpg" alt="" height="400px" class="img.responsive" />
-								</li>
-							</ul>
-						</div>
-						<!-- end slider -->
-					</div>
-				</div>
-			</div>
-        </section>
-			
-        <section id="content">			
-			<div class="container">
-				<div class="row">
-					<div class="col-md-8 col-md-offset-2">
-						<h2>Comunicate <small>sugerencias del sitio</small></h2>
-						<hr class="colorgraph">
-						<div id="sendmessage">Your message has been sent. Thank you!</div>
-						<div id="errormessage"></div>
-						<form action="" method="post" role="form" class="contactForm">
-							<div class="form-group">
-								<input type="text" name="nombre" class="form-control" id="nombre" placeholder="Nombre" data-rule="minlen:4" data-msg="Pro favor escribe tu nombre" />
-								<div class="validation"></div>
+								</div>
 							</div>
-							<div class="form-group">
-								<input type="email" class="form-control" name="correo" id="correo" placeholder="Correo" data-rule="correo" data-msg="Por favor escribe un correo válido" />
-								<div class="validation"></div>
+							<hr class="colorgraph">
+							<div class="row">
+								<div class="col-xs-12 col-md-6"><input type="submit" value="Registro" class="btn btn-info btn-block btn-lg"></div>
 							</div>
-							<div class="form-group">
-								<input type="text" class="form-control" name="asunto" id="asunto" placeholder="Asunto" data-rule="minlen:4" data-msg="Por favor escribe un asunto " />
-								<div class="validation"></div>
-							</div>
-							<div class="form-group">
-								<textarea class="form-control" name="mensaje" rows="5" data-rule="required" data-msg="Por favor escribe tu comentario" placeholder="Mensaje"></textarea>
-								<div class="validation"></div>
-							</div>
-
-							<div class="text-center"><button type="submit" class="btn btn-info btn-block btn-md">Enviar Mensaje</button></div>
 						</form>
-						<hr class="colorgraph">
-
 					</div>
 				</div>
 			</div>
-        </section>
-		
-		
+		</section>
+
 		<footer>
-			<div class="container">
+		    <div class="container">
 		      <h3 class="text-center">Información adicional </h3>
 				<div class="row">
 					<div class="col-sm-4 ">
@@ -210,33 +189,24 @@
 				</div>
 			</div>
 		</footer>
-		<!--<div class="col-lg-6">
-							<ul class="social-network">
-								<li><a href="#" data-placement="top" title="Facebook"><i class="fa fa-facebook"></i></a></li>
-								<li><a href="#" data-placement="top" title="Twitter"><i class="fa fa-twitter"></i></a></li>
-								<li><a href="#" data-placement="top" title="Linkedin"><i class="fa fa-linkedin"></i></a></li>
-								<li><a href="#" data-placement="top" title="Pinterest"><i class="fa fa-pinterest"></i></a></li>
-								<li><a href="#" data-placement="top" title="Google plus"><i class="fa fa-google-plus"></i></a></li>
-							</ul>
-		</div>-->
-	</div>
+    </div>
+	
 	<a href="#" class="scrollup"><i class="fa fa-angle-up active"></i></a>
-
+	<!-- javascript
+    ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src="js/jquery.min.js"></script>
 	<script src="js/modernizr.custom.js"></script>
 	<script src="js/jquery.easing.1.3.js"></script>
 	<script src="js/bootstrap.min.js"></script>
-	<script src="plugins/flexslider/jquery.flexslider-min.js"></script>
-	<script src="plugins/flexslider/flexslider.config.js"></script>
 	<script src="js/jquery.appear.js"></script>
 	<script src="js/stellar.js"></script>
 	<script src="js/classie.js"></script>
 	<script src="js/uisearch.js"></script>
 	<script src="js/jquery.cubeportfolio.min.js"></script>
-	<script src="js/google-code-prettify/prettify.js"></script>
 	<script src="js/animate.js"></script>
 	<script src="js/custom.js"></script>
+	<script src="js/operaciones.js"></script>
 
 
 </body>
