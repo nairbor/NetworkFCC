@@ -15,7 +15,16 @@
 			parent::cerrar();
 			
 		}
+		public function borrarEvento($Id){
+	    
+			parent::conectar();	
 			
+			#Borramoslos datos en la base de datos;
+			parent::query("DELETE FROM eventos WHERE InEvent = '$Id' LIMIT 1");
+		
+			parent::cerrar();
+			
+		}	
 		public function guardarImagen($foto,$nombrefoto,$x){
 		
 			if ($x > 0){
