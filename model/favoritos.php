@@ -3,41 +3,22 @@
   # Incluimos la clase conexion para poder heredar los metodos de ella.
   require_once('conexion.php');
 
-	class Evento extends Conexion{
+	class Favorito extends Conexion{
 		  
-		public function registroEvento($Nombre, $Fecha, $Imagen, $Descripcion){
+		public function registroFavorito($IdUser, $IdEvento){
 	    
 			parent::conectar();	
 			
 			#Guardamos los datos en la base de datos;
-			parent::query("INSERT INTO eventos (Nombre, Fecha, Imagen, Descripcion) VALUES ('".$Nombre."','".$Fecha."','".$Imagen."','".$Descripcion."')");
+			echo "INSERT INTO favoritos (IdUser, IdEvento) VALUES ('".$IdUser."','".$IdEvento."')";
+			
+			parent::query("INSERT INTO favoritos (IdUser, IdEvento) VALUES ('".$IdUser."','".$IdEvento."')");
 		
 			parent::cerrar();
 			
 		}
 			
-		public function guardarImagen($foto,$nombrefoto,$x){
 		
-			if ($x > 0){
-				echo "Error: " . $x . "<br>";
-						
-			}else{
-				echo "Nombre: " . $nombrefoto . "<br>";
-			}
-		
-			#Ruta de a donde se mandara la imagen ALAN
-			//$target_path = '/wamp64/www/NetworkFCC/medios/'. basename( $nombrefoto);
-			
-			#Ruta de a donde se mandara la imagen MARIO
-			$target_path = '/xampp/htdocs/blog8/medios/'. basename( $nombrefoto);
-			
-	
-			if(move_uploaded_file($foto, $target_path)) { 
-				echo "El archivo ". basename( $nombrefoto ). " ha sido subido";
-			} else{
-				echo "Ha ocurrido un error, trate de nuevo!";
-			}	
-		}
 		
 		public function mostrarEvento(){
 	    
