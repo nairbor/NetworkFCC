@@ -1,4 +1,13 @@
 <!DOCTYPE html>
+<?php
+
+  $mysqli=new mysqli("localhost","root","","networkfcc");
+  
+  $query="SELECT InEvent, Nombre, Fecha, Imagen, Descripcion FROM eventos";
+  $resultado=$mysqli->query($query);
+    
+
+?>
 <html lang="en">
 
 <head>
@@ -7,24 +16,19 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta name="description" content="Bootstrap 3 template for corporate business" />
 	<!-- css -->
-	<link href="css/bootstrap.min.css" rel="stylesheet" />
-	<link href="plugins/flexslider/flexslider.css" rel="stylesheet" media="screen" />
-	<link href="css/cubeportfolio.min.css" rel="stylesheet" />
-	<link href="css/style.css" rel="stylesheet" />
-	<link href="css/miestilo.css" rel="stylesheet" />
+	<link href="public/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="public/plugins/flexslider/flexslider.css" rel="stylesheet" media="screen" />
+	<link href="public/css/cubeportfolio.min.css" rel="stylesheet" />
+	<link href="public/css/style.css" rel="stylesheet" />
+	<link href="public/css/miestilo.css" rel="stylesheet" />
 
 	<!-- Theme skin -->
-	<link id="t-colors" href="skins/default.css" rel="stylesheet" />
+	<link id="t-colors" href="public/skins/default.css" rel="stylesheet" />
 
 	<!-- boxed bg -->
-	<link id="bodybg" href="bodybg/bg1.css" rel="stylesheet" type="text/css" />
+	<link id="bodybg" href="public/bodybg/bg1.css" rel="stylesheet" type="text/css" />
 
-	<!-- =======================================================
-    Theme Name: Sailor
-    Theme URL: https://bootstrapmade.com/sailor-free-bootstrap-theme/
-    Author: BootstrapMade
-    Author URL: https://bootstrapmade.com
-	======================================================= -->
+
 
 </head>
 
@@ -35,33 +39,14 @@
 			<div class="top">
 				<div class="container">
 					<div class="row">
-						<div class="col-md-12 hidden-sm hidden-xs ">							
-                            <form class="form-inline  derecha">
-                              <div class="form-group ">
-                                <label for="user" >Usuario: </label>
-                                <input type="text" class="form-control " id="user">
-                              </div>
-                              <div class="form-group">
-                                <label for="pwd" >Contraseña: </label>
-                                <input type="password" class="form-control" id="pwd">
-                              </div>
-                              <button type="submit" class="btn btn-info "> Entrar </button>
-                              <button type="submit" class="btn btn-info "> Registrarse </button>
-                            </form>									
-						</div>
-						<div class="col-xs-12 hidden-lg hidden-md">							
-                            <form class="form-inline ">
-                              <div class="form-group ">
-                                <label for="user" >Usuario: </label>
-                                <input type="text" class="form-control " id="user">
-                              </div>
-                              <div class="form-group">
-                                <label for="pwd" >Contraseña: </label>
-                                <input type="password" class="form-control" id="pwd">
-                              </div>
-                              <button type="submit" class="btn btn-info "> Entrar </button>
-                              <button type="submit" class="btn btn-info "> Registrarse </button>
-                            </form>									
+						<div class="col-xs-12 ">							
+                              <a href="registro.php">
+                              <button type="submit" class="btn btn-info derecha margen-izquierdo"> Registrarse </button>
+                              </a>	
+                              <a href="login.php">
+                                <button type="submit" class="btn btn-info derecha margen-derecho"> Entrar </button>
+                              </a>
+                              							
 						</div>
 					</div>
 				</div>
@@ -75,54 +60,39 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-						<a class="navbar-brand" href="#"><img src="img/logo.png" alt="" width="120" height="45" /></a>
+						<a class="navbar-brand" href="index.php"><img src="public/img/logo.png" alt="" width="120" height="45" /></a>
 					</div>
 					<div class="navbar-collapse collapse">
 						<ul class="nav navbar-nav">
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle " data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false">Inicio</a>
-							</li>
-							<li class="dropdown"><a href="#" class="dropdown-toggle " data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false">Secretaría Academica</a>
-							<li class="dropdown"><a href="#" class="dropdown-toggle " data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false">Bolsa de Trabajo</a>
-							<li class="dropdown"><a href="#" class="dropdown-toggle " data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false">Servicio Social</a>
+							<li><a href="index.php">Inicio</a></li>
+							<li><a href="secretaria.php">Secretaría Academica</a></li>
+							<li><a href="bolsa.php">Bolsa de Trabajo</a>
+							<li><a href="servicio.php">Servicio Social</a>
 						</ul>
 					</div>
 				</div>
 			</div>
 		</header>
 		<!-- end header -->
+		<center>
 		<section id="featured" class="bg">
 				<!-- start slider -->
 			<div class="container">
 				<div class="row">
-					<div class="col-lg-12">
+					<div class="col-md-8 col-md-offset-2">
 						<!-- Slider -->
 						<div id="main-slider" class="main-slider flexslider">
 							<ul class="slides text-center">
+								<?php while($row=$resultado->fetch_assoc()){ ?>	
 								<li>
-								    <div class="margen-inferior">
-										<h3>Servicio Social</h3>
-										<p>REaliza tu Servcio en la DGIE</p>
-										<a href="#" class="btn btn-theme">Leer más</a>
-									</div>
-									<img src="img/slides/flexslider/1.jpg" alt="" height="400px" class="img.responsive"/>
+									    <a class="example-image-link" href="medios/<?php echo $row['Imagen'];?>" data-lightbox="example-1"><img class="example-image img.responsive" src="medios/<?php echo $row['Imagen'];?>" height="400px" alt="" /></a>
+										
+											<h3><?php echo $row['Nombre'];?></h3>
+											<h4><?php echo $row['Fecha'];?></h4>											
+											<p><?php echo $row['Descripcion'];?></p>
+											
 								</li>
-								<li>
-								    <div class="margen-inferior">
-										<h3>Bolsa de trabajo</h3>
-										<p>VW te esta buscando</p>
-										<a href="#" class="btn btn-theme">Leer más</a>
-									</div>
-									<img src="img/slides/flexslider/2.jpg" alt="" height="400px" class="img.responsive"/>
-								</li>
-								<li>
-								    <div class="margen-inferior">
-										<h3>Secretaría Academica</h3>
-										<p>Progrma integral de becas.</p>
-										<a href="#" class="btn btn-theme">Leer más</a>
-									</div>
-									<img src="img/slides/flexslider/3.jpg" alt="" height="400px" class="img.responsive" />
-								</li>
+								<?php } ?>
 							</ul>
 						</div>
 						<!-- end slider -->
@@ -130,7 +100,7 @@
 				</div>
 			</div>
         </section>
-			
+		</center>	
         <section id="content">			
 			<div class="container">
 				<div class="row">
@@ -165,6 +135,7 @@
 				</div>
 			</div>
         </section>
+		
 		
 		
 		<footer>
@@ -223,20 +194,18 @@
 	<a href="#" class="scrollup"><i class="fa fa-angle-up active"></i></a>
 
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="js/jquery.min.js"></script>
-	<script src="js/modernizr.custom.js"></script>
-	<script src="js/jquery.easing.1.3.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="plugins/flexslider/jquery.flexslider-min.js"></script>
-	<script src="plugins/flexslider/flexslider.config.js"></script>
-	<script src="js/jquery.appear.js"></script>
-	<script src="js/stellar.js"></script>
-	<script src="js/classie.js"></script>
-	<script src="js/uisearch.js"></script>
-	<script src="js/jquery.cubeportfolio.min.js"></script>
-	<script src="js/google-code-prettify/prettify.js"></script>
-	<script src="js/animate.js"></script>
-	<script src="js/custom.js"></script>
+	<script src="public/js/jquery.min.js"></script>
+	<script src="public/js/modernizr.custom.js"></script>
+	<script src="public/js/jquery.easing.1.3.js"></script>
+	<script src="public/js/bootstrap.min.js"></script>
+	<script src="public/plugins/flexslider/jquery.flexslider-min.js"></script>
+	<script src="public/plugins/flexslider/flexslider.config.js"></script>
+	<script src="public/js/jquery.appear.js"></script>
+	<script src="public/js/stellar.js"></script>
+	<script src="public/js/classie.js"></script>
+	<script src="public/js/jquery.cubeportfolio.min.js"></script>
+	<script src="public/js/google-code-prettify/prettify.js"></script>
+	<script src="public/js/animate.js"></script>
 
 
 </body>
