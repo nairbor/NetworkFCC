@@ -1,23 +1,42 @@
 <?php
+  // Se prendio esta mrd :v
   session_start();
 
   // Validamos que exista una session y ademas que el cargo que exista sea igual a 1 (Administrador)
-  if(!isset($_SESSION['cargo']) || $_SESSION['cargo'] != 2){
+  if(!isset($_SESSION['cargo']) || $_SESSION['cargo'] != 1){
+    /*
+      Para redireccionar en php se utiliza header,
+      pero al ser datos enviados por cabereza debe ejecutarse
+      antes de mostrar cualquier informacion en el DOM es por eso que inserto este
+      codigo antes de la estructura del html, espero haber sido claro
+    */
     header('location: ../../index.php');
   }
+	
+	require_once('../../model/eventos.php');
+
+	# Creamos un objeto de la clase Evento
+
+	
+	//echo $resultado = $evento->mostrarEvento();
+
 	$mysqli=new mysqli("localhost","root","","networkfcc");
 	
 	$query="SELECT InEvent, Nombre, Fecha, Imagen, Descripcion FROM eventos";
 	$resultado=$mysqli->query($query);
 		
-
+		
+		
+	
 ?>
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-	<meta charset="utf-8">
-	<title>Netword-FCC</title>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin</title>
     <link href="../../public/css/bootstrap.min.css" rel="stylesheet" />
 	<link href="../../public/plugins/flexslider/flexslider.css" rel="stylesheet" media="screen" />
 	<link href="../../public/css/cubeportfolio.min.css" rel="stylesheet" />
@@ -29,34 +48,33 @@
 
 	<!-- boxed bg -->
 	<link id="bodybg" href="../../public/bodybg/bg1.css" rel="stylesheet" type="text/css" />
-
-</head>
-
-<body>
-	<div id="wrapper">
+  </head>
+  <body>
+  	<div id="wrapper">
 		<!-- start header -->
 		<header>
 			<div class="top">
 				<div class="container">
 					<div class="row">
-						 <div class="col-xs-12 col-sm-6 ">
-                            <h4 class="text-center">Binvenido a Netword-FCC <?php echo ucfirst($_SESSION['nombre']); ?>  </h4>
-                         </div>    
-                         <div class="col-xs-6 col-sm-3">
-                           	<a href="../../controller/cerrarSesion.php">
-                                <button type="button" name="button" class="derecha btn btn-info ">Cerrar sesion</button>
-                            </a>
-                         </div>
-                         <div class="col-xs-6 col-sm-3 ">
-                            <a href="favoritosEvento.php">
-                                <button type="button" name="button" class="btn btn-info ">Favoritos</button>  
-                            </a>
-                         </div>
+							     <div class="col-xs-12 col-sm-6 ">
+                                <h4 class="text-center">Hola administrador <?php echo ucfirst($_SESSION['nombre']); ?>  </h4>
+                                </div>    
+                                <div class="col-xs-6 col-sm-3">
+                              	<a href="../../controller/cerrarSesion.php">
+                                  <button type="button" name="button" class="derecha btn btn-info ">Cerrar sesion</button>
+                                </a>
+                                </div>
+                                <div class="col-xs-6 col-sm-3 ">
+                                <a href="crearEvento.php">
+                                  <button type="button" name="button" class="btn btn-info  margen-derecho">Crear evento</button>
+                                </a>
+                                </div>
+                        
 					</div>
 				</div>
 			</div>
-
-			<div class="navbar navbar-default navbar-static-top">
+            
+            <div class="navbar navbar-default navbar-static-top">
 				<div class="container">
 					<div class="navbar-header">
 						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -77,102 +95,42 @@
 				</div>
 			</div>
 		</header>
+
 		<!-- end header -->
-		<section id="featured" class="bg">
-				<!-- start slider -->
-			<div class="container">
-				<div class="row">
-					<div class="col-md-8 col-md-offset-2">
-						<!-- Slider -->
-						<div id="main-slider" class="main-slider flexslider">
-							<ul class="slides text-center">
-								<?php while($row=$resultado->fetch_assoc()){ ?>	
-								<li>
-									    <a class="example-image-link" href="../../medios/<?php echo $row['Imagen']; ?>" data-lightbox="example-1"><img class="example-image img.responsive" src="../../medios/<?php echo $row['Imagen'];?>" height="400px" alt="" /></a>
-										
-											<h3><?php echo $row['Nombre'];?></h3>
-											<h4><?php echo $row['Fecha'];?></h4>											
-											<p><?php echo $row['Descripcion'];?></p>
-											
-								</li>
-								<?php } ?>
-							</ul>
-						</div>
-						<!-- end slider -->
-					</div>
-				</div>
-			</div>
-        </section>
+        <section id="content">
+        <div class="container">
+        <div class="row">
+        <?php while($row=$resultado->fetch_assoc()){ ?>
 		
-		
-			
-        <section id="content">			
-			<div class="container">
-				<div class="row">
-					<div class="col-md-8 col-md-offset-2">
-						<h2>Comunicate <small>sugerencias del sitio</small></h2>
-						<hr class="colorgraph">
-						<div id="sendmessage">Your message has been sent. Thank you!</div>
-						<div id="errormessage"></div>
-						<form action="" method="post" role="form" class="contactForm">
-							<div class="form-group">
-								<input type="text" name="nombre" class="form-control" id="nombre" placeholder="Nombre" data-rule="minlen:4" data-msg="Pro favor escribe tu nombre" />
-								<div class="validation"></div>
-							</div>
-							<div class="form-group">
-								<input type="email" class="form-control" name="correo" id="correo" placeholder="Correo" data-rule="correo" data-msg="Por favor escribe un correo válido" />
-								<div class="validation"></div>
-							</div>
-							<div class="form-group">
-								<input type="text" class="form-control" name="asunto" id="asunto" placeholder="Asunto" data-rule="minlen:4" data-msg="Por favor escribe un asunto " />
-								<div class="validation"></div>
-							</div>
-							<div class="form-group">
-								<textarea class="form-control" name="mensaje" rows="5" data-rule="required" data-msg="Por favor escribe tu comentario" placeholder="Mensaje"></textarea>
-								<div class="validation"></div>
-							</div>
-
-							<div class="text-center"><button type="submit" class="btn btn-info btn-block btn-md">Enviar Mensaje</button></div>
-						</form>
-						<hr class="colorgraph">
-
-					</div>
-				</div>
-			</div>
-        </section>
-        
-        
-        <section id="content">			
-			<div class="container">
-				<div class="row">
-                <?php while($row=$resultado->fetch_assoc()){ ?>
-
-                <div class="col-sm-6 col-md-4">
-                    <div class="thumbnail">
-                        <a href="#" class="thumbnail">
-
-                      <img src="../../medios/<?php echo $row['Imagen'];?>" width="200px" height="150px" alt="...">
-                            </a>
-                      <div class="caption text-center">
-                        <h4><?php echo $row['Nombre'];?></h4>
-                        <h5><?php echo $row['Fecha'];?></h5>
-                        <p><?php echo $row['Descripcion'];?></p>
-
-                        <a href="../../controller/favoritoController.php?InEvent=<?php echo $row['InEvent']."&id=".$_SESSION['id'];?>"><button type="button" name="button" class="btn btn-info  margen-derecho">Agregar a favoritos</button></a>
-                
-                      </div>
-                    </div>
-                  </div>
-                  <?php } ?>
-                </div>
-            </div>
-        </section>
+				
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+        <a href="#" class="thumbnail">
     
+      <img src="../../medios/<?php echo $row['Imagen'];?>" width="200px" height="150px" alt="...">
+            </a>
+      <div class="caption text-center">
+        <h4><?php echo $row['Nombre'];?></h4>
+        <h5><?php echo $row['Fecha'];?></h5>
+        <p><?php echo $row['Descripcion'];?></p>
+       
+        <a href="eliminarEvento.php?id=<?php echo $row['InEvent'];?>"><button type="button" name="button" class="btn btn-info  margen-derecho">Eliminar</button></a>
+       
+        <a href="modificarEvento.php?id=<?php echo $row['InEvent'];?>"><button type="button" name="button" class="btn btn-info">Modificar</button></a>
+       
+      </div>
+    </div>
+  </div>
+			
+	   <?php } ?>
+			
+		</div>
+        </div>
+        </section>
 		
-
-		
-		
-		<footer>
+	</div>
+      
+    <footer>
 			<div class="container">
 		      <h3 class="text-center">Información adicional </h3>
 				<div class="row">
@@ -215,19 +173,11 @@
 				</div>
 			</div>
 		</footer>
-		<!--<div class="col-lg-6">
-							<ul class="social-network">
-								<li><a href="#" data-placement="top" title="Facebook"><i class="fa fa-facebook"></i></a></li>
-								<li><a href="#" data-placement="top" title="Twitter"><i class="fa fa-twitter"></i></a></li>
-								<li><a href="#" data-placement="top" title="Linkedin"><i class="fa fa-linkedin"></i></a></li>
-								<li><a href="#" data-placement="top" title="Pinterest"><i class="fa fa-pinterest"></i></a></li>
-								<li><a href="#" data-placement="top" title="Google plus"><i class="fa fa-google-plus"></i></a></li>
-							</ul>
-		</div>-->
-	</div>
-	<a href="#" class="scrollup"><i class="fa fa-angle-up active"></i></a>
+    <!-- ucfirst convierte la primera letra en mayusculas de una cadena -->
 
-	<!-- Placed at the end of the document so the pages load faster -->
+    
+	
+	
 	<script src="../../public/js/jquery.min.js"></script>
 	<script src="../../public/js/modernizr.custom.js"></script>
 	<script src="../../public/js/jquery.easing.1.3.js"></script>
@@ -241,12 +191,6 @@
 	<script src="../../public/js/google-code-prettify/prettify.js"></script>
 	<script src="../../public/js/animate.js"></script>
 
-
-</body>
-
+	
+  </body>
 </html>
-	
-	
-	
-	
-	
