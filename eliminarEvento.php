@@ -3,7 +3,7 @@
   session_start();
 
   // Validamos que exista una session y ademas que el cargo que exista sea igual a 1 (Administrador)
-  if(!isset($_SESSION['cargo']) || $_SESSION['cargo'] != 2){
+  if(!isset($_SESSION['cargo']) || $_SESSION['cargo'] != 1){
     /*
       Para redireccionar en php se utiliza header,
       pero al ser datos enviados por cabereza debe ejecutarse
@@ -15,14 +15,16 @@
   
 	$mysqli=new mysqli("localhost","root","","networkfcc");
   
-	$IdFavorito=$_GET['IdFavorito'];
+	$id=$_GET['id'];
 	
-	$query="DELETE FROM favoritos WHERE IdFavorito = '".$IdFavorito."'";
+	$query="DELETE FROM eventos WHERE InEvent = '".$id."'";
 	
 	$resultado=$mysqli->query($query);
 	
   
 ?>
+
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -55,7 +57,7 @@
             <a href="../../controller/cerrarSesion.php">
               <button type="button" name="button" class=" derecha btn btn-info margen-izquierdo">Cerrar sesion</button>
             </a>      
-            <h4 class="derecha">Hola usuario <?php echo ucfirst($_SESSION['nombre']); ?>  </h4>
+            <h4 class="derecha">Hola administrador <?php echo ucfirst($_SESSION['nombre']); ?>  </h4>
           </div>
         </div>
       </div>
@@ -132,9 +134,6 @@
   <script src="../../public/js/jquery.cubeportfolio.min.js"></script>
   <script src="../../public/js/google-code-prettify/prettify.js"></script>
   <script src="../../public/js/animate.js"></script>
-
-
-	
 	
 	
 	

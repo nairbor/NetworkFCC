@@ -1,16 +1,33 @@
 <?php
-    session_start();
+  // Se prendio esta mrd :v
+  session_start();
 
   // Validamos que exista una session y ademas que el cargo que exista sea igual a 1 (Administrador)
-  if(!isset($_SESSION['cargo']) || $_SESSION['cargo'] != 2){
+  if(!isset($_SESSION['cargo']) || $_SESSION['cargo'] != 1){
+    /*
+      Para redireccionar en php se utiliza header,
+      pero al ser datos enviados por cabereza debe ejecutarse
+      antes de mostrar cualquier informacion en el DOM es por eso que inserto este
+      codigo antes de la estructura del html, espero haber sido claro
+    */
     header('location: ../../index.php');
   }
-  $mysqli=new mysqli("localhost","root","","networkfcc");
-  
-  $query="SELECT InEvent, Nombre, Fecha, Imagen, Descripcion FROM eventos where Tipo=2";
-  $resultado=$mysqli->query($query);
-    
+	
+	require_once('../../model/eventos.php');
 
+	# Creamos un objeto de la clase Evento
+
+	
+	//echo $resultado = $evento->mostrarEvento();
+
+	$mysqli=new mysqli("localhost","root","","networkfcc");
+	
+	$query="SELECT InEvent, Nombre, Fecha, Imagen, Descripcion FROM eventos where Tipo=2";
+	$resultado=$mysqli->query($query);
+		
+		
+		
+	
 ?>
 
 <!DOCTYPE html>
@@ -44,19 +61,20 @@
 			<div class="top">
 				<div class="container">
 					<div class="row">
-						 <div class="col-xs-12 col-sm-6 ">
-                            <h4 class="text-center">Hola usuario <?php echo ucfirst($_SESSION['nombre']); ?>  </h4>
-                         </div>    
-                         <div class="col-xs-6 col-sm-3">
-                           	<a href="../../controller/cerrarSesion.php">
-                                <button type="button" name="button" class="derecha btn btn-info ">Cerrar sesion</button>
-                            </a>
-                         </div>
-                         <div class="col-xs-6 col-sm-3 ">
-                            <a href="favoritosEvento.php">
-                                <button type="button" name="button" class="btn btn-info ">Favoritos</button>  
-                            </a>
-                         </div>
+							     <div class="col-xs-12 col-sm-6 ">
+                                <h4 class="text-center">Hola administrador <?php echo ucfirst($_SESSION['nombre']); ?>  </h4>
+                                </div>    
+                                <div class="col-xs-6 col-sm-3">
+                              	<a href="../../controller/cerrarSesion.php">
+                                  <button type="button" name="button" class="derecha btn btn-info ">Cerrar sesion</button>
+                                </a>
+                                </div>
+                                <div class="col-xs-6 col-sm-3 ">
+                                <a href="crearEvento.php">
+                                  <button type="button" name="button" class="btn btn-info  margen-derecho">Crear evento</button>
+                                </a>
+                                </div>
+                        
 					</div>
 				</div>
 			</div>
@@ -99,7 +117,9 @@
 											<h3><?php echo $row['Nombre'];?></h3>
 											<h4><?php echo $row['Fecha'];?></h4>											
 											<p><?php echo $row['Descripcion'];?></p>
-											<a href="../../controller/favoritoController.php?InEvent=<?php echo $row['InEvent']."&id=".$_SESSION['id'];?>"><button type="button" name="button" class="btn btn-info  margen-derecho">Agregar a favoritos</button></a>
+											<a href="eliminarEvento.php?id=<?php echo $row['InEvent'];?>"><button type="button" name="button" class="btn btn-info  margen-derecho">Eliminar</button></a>
+       
+                                            <a href="modificarEvento.php?id=<?php echo $row['InEvent'];?>"><button type="button" name="button" class="btn btn-info">Modificar</button></a>
 								</li>
 								<?php } ?>
 							</ul>
